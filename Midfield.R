@@ -9,8 +9,11 @@ my.df <- data.frame(Kevin.De.Bruyne = a, Fernando = b, David.Silva = c)
 # Print summary of dataframe
 summary(my.df)
 
+# Create second data frame of Player and Touches columns
+my.df.2 <- data.frame(Player = rep(c("Kevin De Bruyne", "Fernando", "David Silva"), each = 11), Touches = c(a,b,c))
+
 # Run ANOVA test on dataframe
-test.aov <- aov(formula = Kevin.De.Bruyne ~ Fernando + David.Silva, data = my.df)
+test.aov <- aov(formula = Touches ~ Player, data = my.df.2)
 
 # Print summary of ANOVA
 summary(test.aov)
