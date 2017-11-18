@@ -1,0 +1,8 @@
+# The plot shows the number of touches in the final third each player has had.
+
+# The raw data per match is shown by the small circle series.
+
+# Each data set has a thick line drawn through the mean value.
+
+# The thin line surrounding the raw data is the density of each set capped off at the standard boxplot whisker limit.
+# This is Quantile25% - 1.5 * IQR and Quantile75% + 1.5* IQR.
