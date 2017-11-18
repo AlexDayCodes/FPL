@@ -1,0 +1,57 @@
+# Making decisions on Fantasy Premier League can be a heady mixture of wild claims, gut feelings and twitter updates.
+# There is however, plenty of sources of data online availalbe to apply statistical methods to and help make good decisions.
+# R is an excellent language for conducting complex analyses quickly and easily.
+
+# Let's examine the number of touches each of the core Manchester City midfielders has had in the opposition's final 
+# third in the eleven matches before the November international break to decide who we might want to transfer in.
+
+# We create a dataframe of the raw data and call for a summary.
+
+ Kevin.De.Bruyne    Fernando      David.Silva   
+ Min.   :31.00   Min.   : 6.00   Min.   :24.00  
+ 1st Qu.:36.50   1st Qu.:10.50   1st Qu.:38.50  
+ Median :41.00   Median :13.00   Median :40.00  
+ Mean   :45.09   Mean   :14.82   Mean   :42.27  
+ 3rd Qu.:53.50   3rd Qu.:20.00   3rd Qu.:48.00  
+ Max.   :64.00   Max.   :25.00   Max.   :56.00 
+ 
+ # A quick glance at this table shows that Kevin De Bruyne has on average the most touches of the three with 45.09 per match. 
+ # David Silva has the second most with 42.27 and Fernando has 14.82.
+ 
+ # Wonderful! De Bruyne has more touches on average than Silva - so he must be the better player right?. However, fantasy managers
+ # should not rush into making changes and investigate further. We need to find if this difference is statistically significant. 
+ # This can be acheived through an ANOVA test.
+ 
+ # Let's have a closer look at this data by conducting an ANOVA test to examine whether these differences in means are 
+ # statistically significant:
+ 
+             Df Sum Sq Mean Sq F value   Pr(>F)    
+Player       2   6153  3076.6   33.41 2.33e-08 ***
+Residuals   30   2763    92.1                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+# The ANOVA summary returns a p-value of 2.33e-08. This is far less than the standard value of 0.05. 
+# The p-value indicates the probability of the null hypothesis. In this case the null hypothesis is that there are no 
+# differences between the players and the data is a product of complete chance.
+
+# To find out which players differ to we do a TukeyHSD test:
+
+  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = Touches ~ Player, data = my.df.2)
+
+$Player
+                                  diff        lwr       upr     p adj
+Fernando-David Silva        -27.454545 -37.542236 -17.36685 0.0000006
+Kevin De Bruyne-David Silva   2.818182  -7.269509  12.90587 0.7718292
+Kevin De Bruyne-Fernando     30.272727  20.185037  40.36042 0.0000001
+
+# The TukeyHSD summary shows us that the Fernando-David Silva and Kevin De Bruyne-Fernando difference both have a very low 
+# p-value of 0.0000006 and 0.0000001 repectively. This is entirely expected as Fernando is the holding presence in the 
+# Manchester City midfield. 
+
+# However, the Kevin De Bruyne-David Silva has a p-value of 0.7718292 and hence is not statistically significant. 
+# Despite De Bruyne having a higher average than Silva the ANOVA test tells us not to take this at face value and that 
+# there is a chance Silva may have more touches than De Bruyne .
